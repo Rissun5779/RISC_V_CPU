@@ -238,6 +238,22 @@ git pull
 git pull origin main
 ```
 
+…or create a new repository on the command line
+
+echo "# RISC_V_CPU" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:Rissun5779/RISC_V_CPU.git
+git push -u origin main
+
+…or push an existing repository from the command line
+
+git remote add origin git@github.com:Rissun5779/RISC_V_CPU.git
+git branch -M main
+git push -u origin main
+
 ## 常見問題與解決方案
 
 ### 1. 處理合併衝突
@@ -320,3 +336,4 @@ build/
 這份指南涵蓋了從設定 Git 與 GitHub 到管理專案的基本流程。隨著你對這些工具的熟悉，你可以探索更多進階功能，如 GitHub Actions、Pull Requests 和 GitHub Pages 等。
 
 祝你的專案開發順利！
+
