@@ -1,0 +1,85 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Clean",
+        "command": "rm",
+        "type": "shell",
+        "args": [
+          "-f",
+          "${fileDirname}/${fileBasenameNoExtension}.elf",
+          "${fileDirname}/${fileBasenameNoExtension}.o"
+        ],
+        "presentation": {
+          "reveal": "always",
+          "clear": true
+        },
+        "group": "build",
+        "detail": "Clean previous build artifacts"
+      },
+      {
+        "label": "RISC_V Assemble",
+        "command": "/home/rissun57/opt/riscv/bin/riscv32-unknown-elf-as",
+        "type": "shell",
+        "args": [
+          "-o",
+          "${fileDirname}/${fileBasenameNoExtension}.o",
+          "${file}"
+        ],
+        "problemMatcher": ["$gcc"],
+        "presentation": {
+          "reveal": "always",
+          "clear": false
+        },
+        "group": "build",
+        "detail": "Assemble RISC_V assembly code",
+        "dependsOn": "Clean",
+        "dependsOrder": "sequence"
+      },
+      {
+        "label": "RISC_V Link",
+        "command": "/home/rissun57/opt/riscv/bin/riscv32-unknown-elf-ld",
+        "type": "shell",
+        "args": [
+          "-o",
+          "${fileDirname}/${fileBasenameNoExtension}.elf",
+          "${fileDirname}/${fileBasenameNoExtension}.o"
+        ],
+        "problemMatcher": ["$gcc"],
+        "presentation": {
+          "reveal": "always",
+          "clear": false
+        },
+        "group": "build",
+        "detail": "Link RISC_V object file",
+        "dependsOn": "RISC_V Assemble",
+        "dependsOrder": "sequence"
+      },
+      {
+        "label": "Run with QEMU",
+        "command": "/usr/bin/qemu-riscv32",
+        "type": "shell",
+        "args": [
+          "${fileDirname}/${fileBasenameNoExtension}.elf"
+        ],
+        "presentation": {
+          "reveal": "always",
+          "clear": false
+        },
+        "group": "build",
+        "detail": "Run program with QEMU",
+        "dependsOn": "RISC_V Link",
+        "dependsOrder": "sequence"
+      },
+      {
+        "label": "Build and Run",
+        "dependsOn": "Run with QEMU",
+        "dependsOrder": "sequence",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
